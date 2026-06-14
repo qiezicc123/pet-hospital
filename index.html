@@ -33,6 +33,23 @@ Html
             text-align: center;
         }
 
+        /* ---- 浏览器打开提示条 ---- */
+        .browser-tip {
+            background: #fffbe6;
+            border: 1px solid #ffe58f;
+            border-radius: 10px;
+            padding: 12px 14px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: #ad8b00;
+            line-height: 1.6;
+            text-align: left;
+        }
+
+        .browser-tip strong {
+            color: #d48806;
+        }
+
         .logo-area {
             margin-bottom: 20px;
         }
@@ -216,6 +233,11 @@ Html
 
     <div class="container">
 
+        <!-- 浏览器打开提示 -->
+        <div class="browser-tip">
+            💡 <strong>温馨提示：</strong>如果点击后无法打开小红书，请点击页面右上角「<strong>···</strong>」→ 选择「<strong>在浏览器中打开</strong>」即可正常访问。
+        </div>
+
         <!-- 头部 -->
         <div class="logo-area">
             <div class="logo-icon">🐾</div>
@@ -225,7 +247,7 @@ Html
 
         <!-- 推荐文案卡片（点击复制） -->
         <div class="copy-card" id="copyCard" onclick="copyText()">
-            <div class="copy-label">👆 点击复制推荐文案</div>
+            <div class="copy-label"> 点击复制推荐文案</div>
             <div class="copy-text" id="copyTextEl"></div>
         </div>
 
@@ -266,13 +288,21 @@ Html
             "✨ 北环宠物医院——沈阳宠物看病首选！\n从检查到治疗全程透明，\n医生会把每个项目讲得明明白白，\n不会让你花冤枉钱，\n毛孩子交给他们真的很放心～"
         ];
 
-        // ========== 小红书跳转逻辑 ==========
-        // 使用小红书官方搜索页URL，兼容App和网页
-        const XHS_SEARCH_URL = "https://www.xiaohongshu.com/search_result?keyword=%E6%B2%88%E9%98%B3%E5%AE%A0%E7%89%A9%E5%8C%BB%E9%99%A2&source=web_explore_feed";
+        // ========== 小红书笔记链接池（7篇） ==========
+        const xhsNoteUrls = [
+            "https://www.xiaohongshu.com/discovery/item/692982d7000000001e003027?source=webshare&xhsshare=pc_web&xsec_token=ABRrz5v-e0tx6PEd1O3fQrb45WKJYw0PhZb8M-H2whZKo=&xsec_source=pc_share",
+            "https://www.xiaohongshu.com/discovery/item/6970ec51000000000a029628?source=webshare&xhsshare=pc_web&xsec_token=ABNpuU-0lf-Y6ox4MaV0XhWk4DAFbvZQNQ3LNMnasW1OE=&xsec_source=pc_share",
+            "https://www.xiaohongshu.com/discovery/item/681cc8e50000000012000ab0?source=webshare&xhsshare=pc_web&xsec_token=ABR2JZiYD3LPr5Yy3J31mdjSf8WONbYRGZQpPnzGWr49U=&xsec_source=pc_share",
+            "https://www.xiaohongshu.com/discovery/item/69778ecc000000000e03dff9?source=webshare&xhsshare=pc_web&xsec_token=ABNbi5MDIjeimE3vCLbZW6vvepqeloFM8_qxGm3cjMKcI=&xsec_source=pc_share",
+            "https://www.xiaohongshu.com/discovery/item/67bc0f01000000002803ce1d?source=webshare&xhsshare=pc_web&xsec_token=ABS9d5iYXAU5MOpXGeXsFxlhiyWATiUKzOi8dcOstIkTc=&xsec_source=pc_share",
+            "https://www.xiaohongshu.com/discovery/item/67c95af8000000002903d8be?source=webshare&xhsshare=pc_web&xsec_token=ABD6vSmahwvElg5ILQf8_c5B5aP4zp9D4YUOudMhp5GEs=&xsec_source=pc_share",
+            "https://www.xiaohongshu.com/discovery/item/6970ebdb000000000b00bc0e?source=webshare&xhsshare=pc_web&xsec_token=ABNpuU-0lf-Y6ox4MaV0XhWntRuO4yG9R-9xxU8H_-qbQ=&xsec_source=pc_share"
+        ];
 
         function jumpToXHS() {
-            // 直接跳转到搜索页，用户可自由选择笔记
-            window.location.href = XHS_SEARCH_URL;
+            // 随机选取一篇笔记跳转
+            const randomIndex = Math.floor(Math.random() * xhsNoteUrls.length);
+            window.location.href = xhsNoteUrls[randomIndex];
         }
 
         // ========== 初始化 ==========
