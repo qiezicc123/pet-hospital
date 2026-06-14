@@ -1,0 +1,349 @@
+Html
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>北环宠物医院推荐</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: #fff;
+            border-radius: 20px;
+            padding: 30px 24px;
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .logo-area {
+            margin-bottom: 20px;
+        }
+
+        .logo-icon {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+            font-size: 32px;
+        }
+
+        .title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 6px;
+        }
+
+        .subtitle {
+            font-size: 13px;
+            color: #999;
+            margin-bottom: 24px;
+        }
+
+        /* ---- 文案卡片 ---- */
+        .copy-card {
+            background: #fdf6f0;
+            border: 2px dashed #f5576c;
+            border-radius: 14px;
+            padding: 20px 16px;
+            margin-bottom: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .copy-card:hover {
+            background: #fff5f5;
+            border-color: #e0445a;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(245, 87, 108, 0.2);
+        }
+
+        .copy-card:active {
+            transform: scale(0.98);
+        }
+
+        .copy-label {
+            font-size: 12px;
+            color: #f5576c;
+            font-weight: 600;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .copy-text {
+            font-size: 15px;
+            color: #444;
+            line-height: 1.8;
+            text-align: left;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .copy-toast {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: #fff;
+            padding: 12px 28px;
+            border-radius: 30px;
+            font-size: 14px;
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .copy-toast.show {
+            opacity: 1;
+        }
+
+        /* ---- 刷新按钮 ---- */
+        .refresh-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: none;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            padding: 8px 18px;
+            font-size: 13px;
+            color: #888;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: all 0.2s;
+        }
+
+        .refresh-btn:hover {
+            border-color: #f5576c;
+            color: #f5576c;
+        }
+
+        /* ---- 小红书跳转按钮 ---- */
+        .xhs-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #ff5a5f 0%, #e04450 100%);
+            color: #fff;
+            border: none;
+            border-radius: 14px;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(255, 90, 95, 0.4);
+        }
+
+        .xhs-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 28px rgba(255, 90, 95, 0.5);
+        }
+
+        .xhs-btn:active {
+            transform: scale(0.97);
+        }
+
+        .xhs-icon {
+            width: 24px;
+            height: 24px;
+            background: #fff;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #ff5a5f;
+            font-weight: 900;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 20px 0;
+            color: #ccc;
+            font-size: 12px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #eee;
+        }
+
+        .footer-note {
+            font-size: 11px;
+            color: #bbb;
+            margin-top: 16px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 复制成功提示 -->
+    <div class="copy-toast" id="toast">✅ 文案已复制，去小红书粘贴吧！</div>
+
+    <div class="container">
+
+        <!-- 头部 -->
+        <div class="logo-area">
+            <div class="logo-icon">🐾</div>
+            <div class="title">北环宠物医院</div>
+            <div class="subtitle">专业宠物健康守护</div>
+        </div>
+
+        <!-- 推荐文案卡片（点击复制） -->
+        <div class="copy-card" id="copyCard" onclick="copyText()">
+            <div class="copy-label">👆 点击复制推荐文案</div>
+            <div class="copy-text" id="copyTextEl"></div>
+        </div>
+
+        <!-- 换一条 -->
+        <button class="refresh-btn" onclick="refreshCopy()">
+            🔄 换一条文案
+        </button>
+
+        <!-- 分割线 -->
+        <div class="divider">点击下方跳转小红书</div>
+
+        <!-- 跳转小红书按钮 -->
+        <a class="xhs-btn" id="xhsLink" href="#" target="_blank">
+            <span class="xhs-icon">红</span>
+            查看「沈阳宠物医院」相关笔记
+        </a>
+
+        <div class="footer-note">扫码了解更多 · 北环宠物医院</div>
+    </div>
+
+    <script>
+        // ========== 推荐文案库 ==========
+        const copyLibrary = [
+            "🐶 家里毛孩子生病了不知道去哪看？\n推荐「北环宠物医院」！\n医生特别耐心，收费也很合理，\n我家狗狗的皮肤病在这儿治好的，\n真心推荐给沈阳的铲屎官们～",
+
+            "🐱 沈阳的铲屎官看过来！\n「北环宠物医院」真的绝了！\n环境干净、设备齐全，\n医生技术好还不乱收费，\n带猫咪做绝育恢复得超快，\n强烈安利！",
+
+            "🐾 找了好久终于找到靠谱的宠物医院了！\n「北环宠物医院」yyds！\n24小时急诊，半夜毛孩子不舒服也不慌，\n医生护士都超级温柔，\n沈阳养宠物的朋友们可以放心冲！",
+
+            "💕 真心推荐沈阳「北环宠物医院」！\n我家两只猫一直在这儿看病体检，\n价格透明，不会乱开检查，\n医生还会耐心教你怎么护理，\n比某些连锁医院良心太多了！",
+
+            "🏥 沈阳北环宠物医院，亲测靠谱！\n带狗子去打疫苗，全程无痛搞定，\n医院很干净没有异味，\n前台小姐姐还送了小零食，\n服务真的没话说，必须推荐！",
+
+            "🌟 墙裂推荐北环宠物医院！\n朋友介绍的，去了一次就认定这儿了，\n医生专业又细心，\n我家猫的慢性病调理得越来越好，\n沈阳的宠友们快收藏起来！",
+
+            "🐕 沈阳宠物医院哪家好？\n必须是「北环宠物医院」啊！\n价格公道、技术过硬，\n关键是真心对小动物好，\n不是那种只想着赚钱的医院，\n铲屎官们闭眼入！",
+
+            "✨ 北环宠物医院——沈阳宠物看病首选！\n从检查到治疗全程透明，\n医生会把每个项目讲得明明白白，\n不会让你花冤枉钱，\n毛孩子交给他们真的很放心～"
+        ];
+
+        // ========== 小红书跳转链接 ==========
+        // 🔧 如果你有具体笔记链接，替换下面这行即可
+        const XHS_URL = "https://www.xiaohongshu.com/search_result?keyword=沈阳宠物医院&source=unknown";
+
+        // ========== 初始化 ==========
+        const copyTextEl = document.getElementById('copyTextEl');
+        const xhsLink = document.getElementById('xhsLink');
+        const toast = document.getElementById('toast');
+
+        // 设置小红书链接
+        xhsLink.href = XHS_URL;
+
+        // 随机选取一条文案
+        function getRandomCopy() {
+            const index = Math.floor(Math.random() * copyLibrary.length);
+            return copyLibrary[index];
+        }
+
+        // 刷新显示
+        function refreshCopy() {
+            // 加一个小动画效果
+            const card = document.getElementById('copyCard');
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(10px)';
+            
+            setTimeout(() => {
+                copyTextEl.textContent = getRandomCopy();
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, 150);
+        }
+
+        // 点击复制
+        function copyText() {
+            const text = copyTextEl.textContent;
+            
+            // 优先使用 Clipboard API
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast();
+                }).catch(() => {
+                    fallbackCopy(text);
+                });
+            } else {
+                fallbackCopy(text);
+            }
+        }
+
+        // 兜底复制方案
+        function fallbackCopy(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.left = '-9999px';
+            textarea.style.top = '-9999px';
+            document.body.appendChild(textarea);
+            textarea.focus();
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                showToast();
+            } catch (e) {
+                alert('复制失败，请手动复制文案');
+            }
+            document.body.removeChild(textarea);
+        }
+
+        // 显示 Toast 提示
+        function showToast() {
+            toast.classList.add('show');
+            clearTimeout(toast._timeout);
+            toast._timeout = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
+        }
+
+        // 页面加载时初始化
+        copyTextEl.textContent = getRandomCopy();
+    </script>
+</body>
+</html>
