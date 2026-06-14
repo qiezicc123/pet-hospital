@@ -267,18 +267,12 @@ Html
         ];
 
         // ========== 小红书跳转逻辑 ==========
-        // 优先使用 App 协议唤起，失败则降级到网页搜索
-        const XHS_APP_SCHEME = "xhsdiscover://search?keyword=%E6%B2%88%E9%98%B3%E5%AE%A0%E7%89%A9%E5%8C%BB%E9%99%A2";
-        const XHS_WEB_URL = "https://www.xiaohongshu.com/search_result?keyword=%E6%B2%88%E9%98%B3%E5%AE%A0%E7%89%A9%E5%8C%BB%E9%99%A2";
+        // 使用小红书官方搜索页URL，兼容App和网页
+        const XHS_SEARCH_URL = "https://www.xiaohongshu.com/search_result?keyword=%E6%B2%88%E9%98%B3%E5%AE%A0%E7%89%A9%E5%8C%BB%E9%99%A2&source=web_explore_feed";
 
         function jumpToXHS() {
-            // 先尝试唤起 App
-            window.location.href = XHS_APP_SCHEME;
-            
-            // 1.5秒后如果没唤起App，则跳转到网页版
-            setTimeout(function() {
-                window.location.href = XHS_WEB_URL;
-            }, 1500);
+            // 直接跳转到搜索页，用户可自由选择笔记
+            window.location.href = XHS_SEARCH_URL;
         }
 
         // ========== 初始化 ==========
