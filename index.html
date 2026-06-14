@@ -231,17 +231,17 @@ Html
 
         <!-- 换一条 -->
         <button class="refresh-btn" onclick="refreshCopy()">
-            🔄 换一条文案
+             换一条文案
         </button>
 
         <!-- 分割线 -->
         <div class="divider">点击下方跳转小红书</div>
 
         <!-- 跳转小红书按钮 -->
-        <a class="xhs-btn" id="xhsLink" href="#" target="_blank">
+        <button class="xhs-btn" id="xhsBtn" onclick="jumpToXHS()">
             <span class="xhs-icon">红</span>
             查看「沈阳宠物医院」相关笔记
-        </a>
+        </button>
 
         <div class="footer-note">扫码了解更多 · 北环宠物医院</div>
     </div>
@@ -253,7 +253,7 @@ Html
 
             "🐱 沈阳的铲屎官看过来！\n「北环宠物医院」真的绝了！\n环境干净、设备齐全，\n医生技术好还不乱收费，\n带猫咪做绝育恢复得超快，\n强烈安利！",
 
-            "🐾 找了好久终于找到靠谱的宠物医院了！\n「北环宠物医院」yyds！\n24小时急诊，半夜毛孩子不舒服也不慌，\n医生护士都超级温柔，\n沈阳养宠物的朋友们可以放心冲！",
+            " 找了好久终于找到靠谱的宠物医院了！\n「北环宠物医院」yyds！\n24小时急诊，半夜毛孩子不舒服也不慌，\n医生护士都超级温柔，\n沈阳养宠物的朋友们可以放心冲！",
 
             "💕 真心推荐沈阳「北环宠物医院」！\n我家两只猫一直在这儿看病体检，\n价格透明，不会乱开检查，\n医生还会耐心教你怎么护理，\n比某些连锁医院良心太多了！",
 
@@ -261,22 +261,29 @@ Html
 
             "🌟 墙裂推荐北环宠物医院！\n朋友介绍的，去了一次就认定这儿了，\n医生专业又细心，\n我家猫的慢性病调理得越来越好，\n沈阳的宠友们快收藏起来！",
 
-            "🐕 沈阳宠物医院哪家好？\n必须是「北环宠物医院」啊！\n价格公道、技术过硬，\n关键是真心对小动物好，\n不是那种只想着赚钱的医院，\n铲屎官们闭眼入！",
+            " 沈阳宠物医院哪家好？\n必须是「北环宠物医院」啊！\n价格公道、技术过硬，\n关键是真心对小动物好，\n不是那种只想着赚钱的医院，\n铲屎官们闭眼入！",
 
             "✨ 北环宠物医院——沈阳宠物看病首选！\n从检查到治疗全程透明，\n医生会把每个项目讲得明明白白，\n不会让你花冤枉钱，\n毛孩子交给他们真的很放心～"
         ];
 
-        // ========== 小红书跳转链接 ==========
-        // 🔧 如果你有具体笔记链接，替换下面这行即可
-        const XHS_URL = "https://www.xiaohongshu.com/search_result?keyword=沈阳宠物医院&source=unknown";
+        // ========== 小红书跳转逻辑 ==========
+        // 优先使用 App 协议唤起，失败则降级到网页搜索
+        const XHS_APP_SCHEME = "xhsdiscover://search?keyword=%E6%B2%88%E9%98%B3%E5%AE%A0%E7%89%A9%E5%8C%BB%E9%99%A2";
+        const XHS_WEB_URL = "https://www.xiaohongshu.com/search_result?keyword=%E6%B2%88%E9%98%B3%E5%AE%A0%E7%89%A9%E5%8C%BB%E9%99%A2";
+
+        function jumpToXHS() {
+            // 先尝试唤起 App
+            window.location.href = XHS_APP_SCHEME;
+            
+            // 1.5秒后如果没唤起App，则跳转到网页版
+            setTimeout(function() {
+                window.location.href = XHS_WEB_URL;
+            }, 1500);
+        }
 
         // ========== 初始化 ==========
         const copyTextEl = document.getElementById('copyTextEl');
-        const xhsLink = document.getElementById('xhsLink');
         const toast = document.getElementById('toast');
-
-        // 设置小红书链接
-        xhsLink.href = XHS_URL;
 
         // 随机选取一条文案
         function getRandomCopy() {
@@ -286,7 +293,6 @@ Html
 
         // 刷新显示
         function refreshCopy() {
-            // 加一个小动画效果
             const card = document.getElementById('copyCard');
             card.style.opacity = '0';
             card.style.transform = 'translateY(10px)';
@@ -302,7 +308,6 @@ Html
         function copyText() {
             const text = copyTextEl.textContent;
             
-            // 优先使用 Clipboard API
             if (navigator.clipboard && navigator.clipboard.writeText) {
                 navigator.clipboard.writeText(text).then(() => {
                     showToast();
